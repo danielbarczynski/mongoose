@@ -2,20 +2,20 @@ const mongoose = require('mongoose');
 
 const addressSchema = new mongoose.Schema({
   street: String,
-  city: String
-})
+  city: String,
+});
 
 const userSchema = new mongoose.Schema({
   name: String,
   age: {
     type: Number,
-    min: 18, 
-    max: 65, 
+    min: 18,
+    max: 65,
     required: true,
     validate: {
-      validator: v => v % 2 === 0,
-      message: props => `${props.value} is not an even number!`
-    }
+      validator: (v) => v % 2 === 0,
+      message: (props) => `${props.value} is not an even number!`,
+    },
   },
   email: {
     type: String,
@@ -25,12 +25,12 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     immutable: true,
-    default: Date.now
+    default: Date.now,
   },
   updatedAt: Date,
-  bestFriend: mongoose.Schema.Types.ObjectId,
+  bestFriend: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   hobbies: [String],
-  address: addressSchema
-})
+  address: addressSchema,
+});
 
 module.exports = mongoose.model('User', userSchema);
